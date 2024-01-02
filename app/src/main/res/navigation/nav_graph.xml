@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/FirstFragment">
+
+    <fragment
+        android:id="@+id/FirstFragment"
+        android:name="com.example.myapplication.FirstFragment"
+        android:label="FlashCards"
+        tools:layout="@layout/fragment_first">
+
+        <action
+            android:id="@+id/action_FirstFragment_to_Add"
+            app:destination="@id/AddFragment" />
+        <action
+            android:id="@+id/action_FirstFragment_to_Review"
+            app:destination="@id/ReviewFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/ReviewFragment"
+        android:name="com.example.myapplication.ReviewFragment"
+        android:label="Review your Cards!"
+        tools:layout="@layout/fragment_review">
+
+        <action
+            android:id="@+id/action_Review_to_FirstFragment"
+            app:destination="@id/FirstFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/AddFragment"
+        android:name="com.example.myapplication.AddFragment"
+        android:label="Add new Cards!"
+        tools:layout="@layout/fragment_add">
+
+        <action
+            android:id="@+id/action_Review_to_FirstFragment"
+            app:destination="@id/FirstFragment" />
+    </fragment>
+</navigation>

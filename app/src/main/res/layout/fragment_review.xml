@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/purple_200"
+    tools:context=".ReviewFragment">
+
+    <Chronometer
+        android:id="@+id/simpleChronometer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:textSize="20sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@id/textview_second"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/textview_right"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/textview_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="20sp"
+        android:layout_marginStart="10dp"
+        app:layout_constraintBottom_toTopOf="@id/textview_second"
+        app:layout_constraintStart_toEndOf="@id/simpleChronometer"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textview_counterRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@id/textview_second"
+        app:layout_constraintStart_toEndOf="@id/textview_right"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textview_wrong"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="20sp"
+        android:layout_marginStart="10dp"
+        app:layout_constraintBottom_toTopOf="@id/textview_second"
+        app:layout_constraintStart_toEndOf="@id/textview_counterRight"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textview_counterWrong"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@id/textview_second"
+        app:layout_constraintStart_toEndOf="@id/textview_wrong"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textview_skip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="20sp"
+        android:layout_marginStart="10dp"
+        app:layout_constraintBottom_toTopOf="@id/textview_second"
+        app:layout_constraintStart_toEndOf="@id/textview_counterWrong"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textview_counterSkip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="20sp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintBottom_toTopOf="@id/textview_second"
+        app:layout_constraintStart_toEndOf="@id/textview_skip"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+
+
+    <TextView
+        android:id="@+id/textview_second"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:text="This is were your questions get shown!"
+        android:textColor="@color/purple_700"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@id/edittext_type"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/simpleChronometer" />
+
+    <EditText
+        android:id="@+id/edittext_type"
+        android:layout_width="350dp"
+        android:layout_height="150dp"
+        android:hint="Type your answer here!"
+        android:background="@color/white"
+        android:textColorHint="@color/purple_200"
+        android:textColor="#000000"
+        app:layout_constraintBottom_toTopOf="@id/button_skip"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textview_second" />
+
+
+    <Button
+        android:id="@+id/button_check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Check"
+        app:layout_constraintBottom_toTopOf="@id/button_skip"
+        app:layout_constraintEnd_toStartOf="@id/button_skip"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edittext_type" />
+
+    <Button
+        android:id="@+id/button_showanswer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Show Answer"
+        app:layout_constraintBottom_toTopOf="@id/button_skip"
+        app:layout_constraintEnd_toEndOf="@id/button_skip"
+        app:layout_constraintStart_toEndOf="@id/button_delete"
+        app:layout_constraintTop_toBottomOf="@id/edittext_type" />
+
+    <Button
+        android:id="@+id/button_skip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Skip Question"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/button_delete"
+        app:layout_constraintTop_toBottomOf="@id/button_check" />
+
+    <Button
+        android:id="@+id/button_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete Card"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/button_skip"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/button_check" />
+</androidx.constraintlayout.widget.ConstraintLayout>
