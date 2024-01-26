@@ -28,6 +28,9 @@
         <action
             android:id="@+id/action_Review_to_FirstFragment"
             app:destination="@id/FirstFragment" />
+        <action
+            android:id="@+id/action_Review_to_Scores"
+            app:destination="@id/ShowScore" />
     </fragment>
 
     <fragment
@@ -39,5 +42,12 @@
         <action
             android:id="@+id/action_Review_to_FirstFragment"
             app:destination="@id/FirstFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/ShowScore"
+        android:name="com.example.myapplication.ShowScore"
+        android:label="Show Scores"
+        tools:layout="@layout/showscore_layout">
     </fragment>
 </navigation>

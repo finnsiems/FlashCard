@@ -12,8 +12,11 @@ import android.widget.PopupMenu
 import android.widget.PopupWindow
 import android.widget.Toast
 import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
+import androidx.navigation.fragment.findNavController
 import com.example.myapplication.databinding.FragmentReviewBinding
 
 
@@ -52,6 +55,11 @@ class ReviewFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        rightCounter = 0
+        wrongCounter = 0
+        skippedCounter = 0
+        positionCounter = 0
+
         setFragmentResultListener("requestKey") { requestKey, bundle ->
             val result = bundle.getInt("bundleKey")
             Log.d("NoteThing", "Result:" + result)
@@ -79,6 +87,8 @@ class ReviewFragment : Fragment() {
 
         }
 
+        load()
+
         binding.buttonDelete.setOnClickListener {
             questions.removeAt(positionCounter)
             answers.removeAt(positionCounter)
@@ -89,20 +99,8 @@ class ReviewFragment : Fragment() {
         }
 
         binding.buttonSkip.setOnClickListener {
-            positionCounter++
-            if(positionCounter > questions.size-1) {
-                if(mode == 1) resultPopup()
-                else positionCounter = 0
-            }
-            binding.textviewSecond.setText(questions[positionCounter])
-
-            skippedCounter++
-
-            if(mode == 1) binding.textviewCounterSkip.setText(skippedCounter.toString())
-
+           skip()
         }
-
-        load()
 
         binding.buttonCheck.setOnClickListener {
            check()
@@ -113,35 +111,64 @@ class ReviewFragment : Fragment() {
         }
     }
 
-    fun check(){
-        val textInput = binding.edittextType.text.toString()
-        Log.d("NoteThing", "A:" + answer)
-        if (textInput == answers[positionCounter] ){
-            Toast.makeText(this.context, "Correct!", Toast.LENGTH_LONG).show()
-
-
-            if(mode == 1){
-                rightCounter++
-                binding.textviewCounterRight.setText(rightCounter.toString())
-            }
-
+    fun skip(){
+        try{
             positionCounter++
-            if(positionCounter > questions.size-1) {
-                if(mode == 1) resultPopup()
-                else positionCounter = 0
+            skippedCounter++
+            if(positionCounter >= questions.size) {
+                if(mode == 1){
+                    showScores()
+                } else positionCounter = 0
             }
             binding.textviewSecond.setText(questions[positionCounter])
-            binding.edittextType.setText("")
 
-        }else if(textInput == ""){
-            Toast.makeText(this.context, "Please type an answer", Toast.LENGTH_LONG).show()
-        }else{
-            Toast.makeText(this.context, "Wrong!", Toast.LENGTH_LONG).show()
+            if(mode == 1) binding.textviewCounterSkip.setText(skippedCounter.toString())
+        }catch (e:Exception){
+            Log.d("NoteThing", "welp: " + e)
+        }
+    }
 
-            if(mode == 1){
-                wrongCounter++
-                binding.textviewCounterWrong.setText(wrongCounter.toString())
+    fun check(){
+        try{
+            val textInput = binding.edittextType.text.toString()
+            Log.d("NoteThing", "A:" + answer)
+
+            if(textInput == ""){
+                Toast.makeText(this.context, "Please type an answer", Toast.LENGTH_LONG).show()
             }
+            else {
+                if (textInput == answers[positionCounter] ){
+                    Toast.makeText(this.context, "Correct!", Toast.LENGTH_LONG).show()
+
+                    if(mode == 1){
+                        rightCounter++
+                        binding.textviewCounterRight.setText(rightCounter.toString())
+                    }
+
+                    positionCounter++
+                    binding.textviewSecond.setText(questions[positionCounter])
+                    binding.edittextType.setText("")
+
+                }else{
+                    Toast.makeText(this.context, "Wrong!", Toast.LENGTH_LONG).show()
+                    if(mode == 1){
+                        wrongCounter++
+                        binding.textviewCounterWrong.setText(wrongCounter.toString())
+                        positionCounter++
+                        binding.textviewSecond.setText(questions[positionCounter])
+                        binding.edittextType.setText("")
+                    }
+                }
+
+                if(positionCounter >= questions.size) {
+                    if(mode == 1){
+                        showScores()
+                    }
+                    else positionCounter = 0
+                }
+            }
+        }catch (e:Exception){
+            Log.d("NoteThing","ahh: " + e)
         }
     }
 
@@ -151,11 +178,10 @@ class ReviewFragment : Fragment() {
         var question: String
         var countVar = 1
         val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
+        questions.clear()
 
         try {
             counter = sharedPref.getInt("counter", 0)
-
-
             while(countVar<=counter) {
                 question = sharedPref.getString(("question" + countVar), "").toString()
                 questions.add(question)
@@ -194,28 +220,25 @@ class ReviewFragment : Fragment() {
         editor.apply()
     }
 
-    fun resultPopup(){
-
-        // inflate the layout of the popup window
-        /*val inflater = getSystemService(context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val popupView: View = inflater.inflate(R.layout.popup, null)
-
-
-        // create the popup window
-
-        // create the popup window
-        val width = LinearLayout.LayoutParams.MATCH_PARENT
-        val height = LinearLayout.LayoutParams.MATCH_PARENT
-        val focusable = true
-        val popupWindow = PopupWindow(popupView, width, height, focusable)
-
-        // show the popup window
-
-        // show the popup window
-        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0)
-        */
-
-
+    fun showScores(){
+        try {
+            val timeValue = binding.simpleChronometer.text.toString()
+            Log.d("NoteThing", "TimeValue:" + timeValue)
+            setFragmentResult(
+                "Scores",
+                bundleOf(
+                    "right" to rightCounter,
+                    "wrong" to wrongCounter,
+                    "skip" to skippedCounter,
+                    "time" to timeValue
+                )
+            )
+            Log.d("NoteThing", "Time: " + timeValue )
+            findNavController().navigate(R.id.action_Review_to_Scores)
+            Log.d("NoteThing", "Hello?")
+        }catch (e:Exception){
+            Log.d("NoteThing", "Exception: " + e)
+        }
     }
 
     override fun onDestroyView() {
